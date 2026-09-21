@@ -44,16 +44,22 @@ The CLI authenticates to Exchange with a **Connected App** (client id + secret).
 
 1. Anypoint Platform → **Access Management → Connected Apps → Create app**.
 2. Type: **App acts on its own behalf (client credentials)**.
-3. Add scope: **Exchange Contributor** (publish assets), scoped to the
-   business group you'll publish into. *(If your org restricts publishing,
-   Exchange Administrator also works.)*
+3. Add scopes (per MuleSoft docs):
+   - **API Catalog Contributor** — required to publish assets.
+   - **View Environment** — on the environment you publish into (needed for
+     Connected App auth).
 4. Save, then copy the **Client ID** and **Client Secret**.
 5. Configure this repo:
    ```bash
    cp .env.example .env
-   # edit .env: set ANYPOINT_ORG (business group name), ANYPOINT_CLIENT_ID,
-   #            ANYPOINT_CLIENT_SECRET
+   # edit .env: set ANYPOINT_ORG, ANYPOINT_CLIENT_ID, ANYPOINT_CLIENT_SECRET
    ```
+
+> **Heads-up on `ANYPOINT_ORG`:** MuleSoft's docs describe `--organization` as
+> the organization **ID** (a UUID — find it in Access Management, it's in the
+> URL). The CLI's own `--help` labels it "Organization Name." Use the **ID** to
+> match the docs; if auth fails, try the business-group name. Set
+> `ANYPOINT_ENV` too if you're not publishing to the default environment.
 
 > `.env` is git-ignored, so credentials never get committed.
 
@@ -87,8 +93,10 @@ asset is published.
 ./sync-to-exchange.sh
 ```
 The CLI is **content-aware**: unchanged specs are skipped, and a version bump
-publishes a *new* Exchange version alongside the old one. Use `--force-publish`
-to force a new version regardless of content.
+publishes a *new* Exchange version alongside the old one. How the new version
+number is computed is set per project in the descriptor's `versionStrategy`
+field (`patchIncrease` (default), `minorIncrease`, `majorIncrease`, `Snapshot`,
+`Fixed`). Use `--force-publish` to force a new version regardless of content.
 
 ## Talking points for the customer
 

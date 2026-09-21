@@ -1,0 +1,88 @@
+openapi: 3.0.3
+info:
+  title: Orders API
+  version: 1.0.0
+  description: >-
+    Create and track customer orders for the ACME retail platform.
+    Cataloged automatically from source control by the Anypoint API Catalog CLI.
+  contact:
+    name: ACME Integration Team
+    email: integration@acme.example
+tags:
+  - name: orders
+    description: Order lifecycle operations
+paths:
+  /orders:
+    get:
+      operationId: listOrders
+      summary: List orders
+      tags: [orders]
+      parameters:
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [open, shipped, cancelled]
+      responses:
+        '200':
+          description: A list of orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+    post:
+      operationId: createOrder
+      summary: Create an order
+      tags: [orders]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '201':
+          description: Order created
+  /orders/{orderId}:
+    get:
+      operationId: getOrder
+      summary: Get an order by ID
+      tags: [orders]
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The requested order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: Order not found
+components:
+  schemas:
+    Order:
+      type: object
+      required: [id, customerId, total]
+      properties:
+        id:
+          type: string
+          example: ord-1001
+        customerId:
+          type: string
+          example: cust-42
+        total:
+          type: number
+          format: double
+          example: 129.99
+        status:
+          type: string
+          enum: [open, shipped, cancelled]
+          example: open

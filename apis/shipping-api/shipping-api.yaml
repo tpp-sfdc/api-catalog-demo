@@ -1,0 +1,68 @@
+openapi: 3.0.3
+info:
+  title: Shipping API
+  version: 1.0.0
+  description: >-
+    Request shipments and track delivery status for the ACME retail platform.
+    Cataloged automatically from source control by the Anypoint API Catalog CLI.
+  contact:
+    name: ACME Integration Team
+    email: integration@acme.example
+tags:
+  - name: shipping
+    description: Shipment and tracking operations
+paths:
+  /shipments:
+    post:
+      operationId: createShipment
+      summary: Request a shipment
+      tags: [shipping]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Shipment'
+      responses:
+        '201':
+          description: Shipment created
+  /shipments/{trackingId}:
+    get:
+      operationId: trackShipment
+      summary: Track a shipment
+      tags: [shipping]
+      parameters:
+        - name: trackingId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Current shipment status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shipment'
+        '404':
+          description: Shipment not found
+components:
+  schemas:
+    Shipment:
+      type: object
+      required: [trackingId, orderId, carrier]
+      properties:
+        trackingId:
+          type: string
+          example: trk-9900
+        orderId:
+          type: string
+          example: ord-1001
+        carrier:
+          type: string
+          enum: [ups, fedex, dhl]
+          example: ups
+        status:
+          type: string
+          enum: [label_created, in_transit, delivered]
+          example: in_transit

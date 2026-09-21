@@ -1,0 +1,81 @@
+openapi: 3.0.3
+info:
+  title: Customers API
+  version: 1.0.0
+  description: >-
+    Manage customer profiles for the ACME retail platform.
+    Cataloged automatically from source control by the Anypoint API Catalog CLI.
+  contact:
+    name: ACME Integration Team
+    email: integration@acme.example
+tags:
+  - name: customers
+    description: Customer profile operations
+paths:
+  /customers:
+    get:
+      operationId: listCustomers
+      summary: List customers
+      tags: [customers]
+      responses:
+        '200':
+          description: A list of customers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+    post:
+      operationId: createCustomer
+      summary: Create a customer
+      tags: [customers]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '201':
+          description: Customer created
+  /customers/{customerId}:
+    get:
+      operationId: getCustomer
+      summary: Get a customer by ID
+      tags: [customers]
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The requested customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          description: Customer not found
+components:
+  schemas:
+    Customer:
+      type: object
+      required: [id, name, email]
+      properties:
+        id:
+          type: string
+          example: cust-42
+        name:
+          type: string
+          example: Jamie Rivera
+        email:
+          type: string
+          format: email
+          example: jamie.rivera@example.com
+        tier:
+          type: string
+          enum: [standard, premium]
+          example: premium

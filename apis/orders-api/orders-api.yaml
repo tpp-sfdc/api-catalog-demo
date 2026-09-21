@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Orders API
-  version: 1.0.0
+  version: 2.0.0
   description: >-
     Create and track customer orders for the ACME retail platform.
     Cataloged automatically from source control by the Anypoint API Catalog CLI.

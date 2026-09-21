@@ -2,22 +2,22 @@
 projects:
   - main: apis/customers-api/customers-api.yaml
     assetId: customers-api
-    version: 1.0.0
-    apiVersion: v1
+    version: 2.0.0
+    apiVersion: v2
     contact:
       name: ACME Integration Team
       email: integration@acme.example
   - main: apis/orders-api/orders-api.yaml
     assetId: orders-api
-    version: 1.0.0
-    apiVersion: v1
+    version: 2.0.0
+    apiVersion: v2
     contact:
       name: ACME Integration Team
       email: integration@acme.example
   - main: apis/shipping-api/shipping-api.yaml
     assetId: shipping-api
-    version: 1.0.0
-    apiVersion: v1
+    version: 2.0.0
+    apiVersion: v2
     contact:
       name: ACME Integration Team
       email: integration@acme.example

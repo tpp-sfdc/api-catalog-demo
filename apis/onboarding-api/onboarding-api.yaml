@@ -1,0 +1,105 @@
+openapi: 3.0.3
+info:
+  title: Onboarding
+  version: 1.0.0
+  description: >-
+    Onboard new employees into the ACME HR platform.
+    Converted from RAML 1.0 and cataloged by the Anypoint API Catalog CLI.
+  contact:
+    name: ACME Integration Team
+    email: integration@acme.example
+tags:
+  - name: onboarding
+    description: New employee onboarding operations
+servers:
+  - url: /onboarding
+paths:
+  /new-employee:
+    post:
+      operationId: createNewEmployee
+      summary: Onboard a new employee
+      tags: [onboarding]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewEmployee'
+      responses:
+        '201':
+          description: Employee created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewEmployee'
+              example:
+                firstName: John
+                lastName: Doe
+                email: john@example.com
+                department: IT
+                startDate: 2026-04-30
+                managerId: "123456"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                message: "Bad request"
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                message: "Internal error"
+components:
+  schemas:
+    NewEmployee:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - department
+        - startDate
+        - managerId
+      properties:
+        firstName:
+          type: string
+          example: "Example"
+        lastName:
+          type: string
+          example: "Example"
+        email:
+          type: string
+          example: "Example"
+        department:
+          type: string
+          example: "Example"
+        startDate:
+          type: string
+          format: date
+          default: "2026-04-28"
+          example: "2026-04-30"
+        managerId:
+          type: string
+          minLength: 6
+          maxLength: 6
+          example: "123456"
+      example:
+        firstName: John
+        lastName: Doe
+        email: john@example.com
+        department: IT
+        startDate: 2026-04-30
+        managerId: "123456"
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: "Bad request"

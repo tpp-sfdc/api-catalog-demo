@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Customers API
-  version: 2.1.1
+  version: 2.1.2
   description: >-
     Manage customer profiles for the ACME retail platform.
     Cataloged automatically from source control by the Anypoint API Catalog CLI.
